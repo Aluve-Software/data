@@ -9,6 +9,8 @@ import org.apache.logging.log4j.Logger;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
+import java.io.StringReader;
 import java.io.StringWriter;
 
 import static java.lang.invoke.MethodHandles.lookup;
@@ -47,5 +49,18 @@ public class DataIO {
             logger.info(String.format("%s%s", ERROR_PREFIX, e.getMessage()));
         }
         return sw.toString();
+    }
+
+    public <T> T unMarshalingEnvelopeObject(String xml, Class<T> chosenClass){
+
+        try {
+            JAXBContext jaxbContext = JAXBContext.newInstance(chosenClass);
+            Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+            StringReader reader = new StringReader(xml);
+            return chosenClass.cast(jaxbUnmarshaller.unmarshal(reader));
+        } catch (JAXBException jaxbException){
+            logger.info(String.format("%s%s", ERROR_PREFIX, jaxbException.getMessage()));
+        }
+        return null;
     }
 }
