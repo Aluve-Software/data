@@ -18,11 +18,12 @@ import static org.apache.logging.log4j.LogManager.getLogger;
 import static org.apache.logging.log4j.message.ParameterizedMessage.ERROR_PREFIX;
 
 public class DataIO {
-    static final Logger logger = getLogger(lookup().lookupClass());
-    private final Gson gson = new Gson();
+    private static final Logger logger = getLogger(lookup().lookupClass());
+    private static final Gson gson = new Gson();
 
+    private DataIO(){}
 
-    public <T> T convertJsonToObject(String jsonString, Class<T> chosenClass) {
+    public static <T> T convertJsonToObject(String jsonString, Class<T> chosenClass) {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             return objectMapper.readValue(jsonString, chosenClass);
@@ -31,11 +32,11 @@ public class DataIO {
         }
     }
 
-    public String simpleJsonRequest(Object o){
+    public static String simpleJsonRequest(Object o){
         return gson.toJson(o);
     }
 
-    public String marshallEnvelopeObject(Object ob){
+    public static String marshallEnvelopeObject(Object ob){
         StringWriter sw = new StringWriter();
         try {
             JAXBContext jaxbContext = JAXBContext.newInstance(ob.getClass());
@@ -51,8 +52,7 @@ public class DataIO {
         return sw.toString();
     }
 
-    public <T> T unMarshalingEnvelopeObject(String xml, Class<T> chosenClass){
-
+    public static <T> T unMarshalingEnvelopeObject(String xml, Class<T> chosenClass){
         try {
             JAXBContext jaxbContext = JAXBContext.newInstance(chosenClass);
             Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
