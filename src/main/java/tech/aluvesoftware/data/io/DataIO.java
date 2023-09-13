@@ -1,4 +1,4 @@
-package com.tech.aluvesoftware.data.io;
+package tech.aluvesoftware.data.io;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -48,7 +48,7 @@ public class DataIO {
      * @param o The Java object to be converted to JSON.
      * @return A JSON string representation of the Java object.
      */
-    public static String simpleJsonRequest(Object o) {
+    public static String convertObjectToJson(Object o) {
         return gson.toJson(o);
     }
 
